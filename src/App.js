@@ -7,6 +7,7 @@ import Materialui from './Component/Materialui'
 import Ant from './Component/Ant';
 import Sing from './Component/Sing';
 import FAB from './Component/MaterialUILearn/FAB';
+import Crad from './Component/MaterialUILearn/Crad';
 
 class App extends React.Component {
   state = {
@@ -40,6 +41,7 @@ class App extends React.Component {
             <Route path="/Sing-up" element={<Sing />} />
             <Route path="/Materialui" element={<Materialui />} />
             <Route path="/FAB" element={<FAB />} />
+            <Route path="/card" element={<Crad />} />
             <Route path="/Nav" element={<ToolbarComponent openDrawerHandler={this.openDrawer} />} />
             <Route path="/Nav" element={<ToolbarComponent openDrawerHandler={this.openDrawer} />} />
           </Routes>
