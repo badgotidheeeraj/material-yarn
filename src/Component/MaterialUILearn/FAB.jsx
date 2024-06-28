@@ -12,7 +12,7 @@ const useStyle = makeStyles(theme => ({
     root: {
         width: "100vw",
         Height: "100vh",
-        backgroundColor: theme.palette.grey[300]
+        backgroundColor: theme.palette.grey[800]
     },
     add: {
         position: "fixed",
@@ -20,8 +20,6 @@ const useStyle = makeStyles(theme => ({
         right: '5%',
         zIndex: theme.zIndex.tooltip,
     }
-
-
 }))
 
 
@@ -38,11 +36,11 @@ const FAB = () => {
     }, [])
     return (
         <>
-            <Container className={userstyle.root}>
+            <Container  className={userstyle.root}>
                 <Fab color='secondary' className={userstyle.add} variant='extended'>
                     <AddIcon /> Create User
                 </Fab>
-                <Grid container spacing={1}>
+                <Grid container spacing={2} style={{margin:'5px'}}>
                     {userData.map((user) => (
                         // item xs={12} sm={6} md={4} lg={3}
                         <Grid item xs={12} sm={6} md={4} lg={3} key={user.id}>
@@ -58,8 +56,8 @@ const FAB = () => {
 
                                             <Typography variant='h6'>{user.name}</Typography>
                                             <Typography>{user.email}</Typography>
-                                            <Typography color='primary'> {user.address['street']}</Typography>
-                                            <Typography color='secondary'> {user.address['city']}</Typography>
+                                            <Typography style={{color:'green' ,fontWeight:800}} > {user.address['street']}</Typography>
+                                            <Typography style={{color:'blue'}} > {user.address['city']}</Typography>
                                         </Box>
                                     </CardContent>
                                 </CardActionArea>
