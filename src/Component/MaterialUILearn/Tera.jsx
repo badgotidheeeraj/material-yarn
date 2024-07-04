@@ -24,7 +24,7 @@ const CustomTextField = ({ items, noteDataId, initialNoteData }) => {
       notes.map((note) =>
         note.id === id ? { ...note, note: "New Note Data" } : note
       )
-    ); // Replace 'New Note Data' with actual new data
+    );
   };
 
   return (
@@ -65,11 +65,11 @@ const App = () => {
   return (
     <div>
       <CustomTextField
-        items={items}//data
+        items={items}
+        //data
         // noteDataId={noteDataId}
-
         // onst noteDataId = 2;
-// const initialNoteData = "Special Note for ID 2";
+        // const initialNoteData = "Special Note for ID 2";
         initialNoteData={initialNoteData}
       />
     </div>
