@@ -12,34 +12,45 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-
-function Ant(props) {
-  return (
-    <Typography variant="body2" color="text.secondary" align="center" {...props}>
-      {'Copyright © '}
-      <Link color="inherit" href="https://mui.com/">
-        Your Website
-      </Link>{' '}
-      {new Date().getFullYear()}
-      {'.'}
-    </Typography>
-  );
-}
-
-// TODO remove, this demo shouldn't need to reset the theme.
-
+import { useNavigate,  } from 'react-router-dom';
+import axios from 'axios';
 const defaultTheme = createTheme();
 
 export default function SignIn() {
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get('email'),
-      password: data.get('password'),
-    });
-  };
+   const navigations=useNavigate()
 
+  const handleSubmit = async (event) => {
+
+    event.preventDefault();
+    const dataFront = new FormData(event.currentTarget);
+  
+    const data = {
+      username: dataFront.get('email'),
+      password: dataFront.get('password'),
+    };
+  
+    try {
+      const response = await axios.post(`${process.env.REACT_APP_BASE_URL}/login`, data);
+      if (response.data.access && response.data.refresh) {
+        console.log('Response:', response.data);
+        localStorage.setItem('accessToken', response.data.access);
+        navigations('/profile')
+
+      }
+    } catch (error) {
+      // Improved error handling
+      if (error.response) {
+        // Server responded with a status other than 2xx
+        console.error('Server error:', error.response.data);
+      } else if (error.request) {
+        // Request was made but no response received
+        console.error('Network error:', error.message);
+      } else {
+        // Something else caused an error
+        console.error('Error:', error.message);
+      }
+    }
+  };
   return (
     <ThemeProvider theme={defaultTheme}>
       <Container component="main" maxWidth="xs">
@@ -105,7 +116,6 @@ export default function SignIn() {
             </Grid>
           </Box>
         </Box>
-        <Ant sx={{ mt: 8, mb: 4 }} />
       </Container>
     </ThemeProvider>
   );

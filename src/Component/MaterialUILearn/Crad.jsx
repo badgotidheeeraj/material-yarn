@@ -4,7 +4,7 @@ import {
     Container, Fab, Box, CardHeader, TextField, Grid, Card, CardActionArea, CardMedia, Button, CardActions, Typography, CardContent, Avatar
 } from '@material-ui/core'
 import axios from 'axios'
-import {HeartFilled}from '@ant-design/icons';
+import { HeartFilled } from '@ant-design/icons';
 const useStyle = makeStyles(theme => ({
     root: {
         width: "100vw",
@@ -31,7 +31,7 @@ const useStyle = makeStyles(theme => ({
 const Crad = () => {
     const classes = useStyle()
     const [photos, setPhoto] = React.useState([])
-    const [data, setData] = React.useState('cat')//yellow+flowers
+    const [data, setData] = React.useState('flower')//yellow+flowers
     const [heart, setHeart] = React.useState(false)//yellow+flowers
     console.log('====', photos);
 
@@ -55,9 +55,9 @@ const Crad = () => {
                     <Grid item sm={4} key={key}>
                         <Card variant='outliner'>
 
-                            <CardHeader avatar={<Avatar>{ photo.tags[0].toUpperCase()}{ photo.user[0] }</Avatar>} title={photo.tags} subheader={photo.user} 
-                            action={  <HeartFilled  onClick={()=>(setHeart(true))}  style={{ color: heart ? 'red' : '', background: '' }}
-/>}/>
+                            <CardHeader avatar={<Avatar>{photo.tags[0].toUpperCase()}{photo.user[0]}</Avatar>} title={photo.tags} subheader={photo.user}
+                                action={<HeartFilled onClick={() => (setHeart(true))} style={{ color: heart ? 'red' : '', background: '' }}
+                                />} />
 
                             <CardActionArea>
                                 <CardMedia
@@ -83,7 +83,7 @@ const Crad = () => {
                 ))}
             </Grid>
         </Container>
-        </>
+    </>
 
     )
 }

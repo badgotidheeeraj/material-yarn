@@ -1,5 +1,8 @@
-import React, { useState } from "react";
-import { fade,  withStyles } from "@material-ui/core/styles";
+
+import React, { useContext, useState } from 'react';
+import UserContext from '../auth/UserContext';
+
+import { fade, withStyles } from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import IconButton from "@material-ui/core/IconButton";
@@ -14,9 +17,8 @@ import AccountCircle from "@material-ui/icons/AccountCircle";
 import MailIcon from "@material-ui/icons/Mail";
 import NotificationsIcon from "@material-ui/icons/Notifications";
 import MoreIcon from "@material-ui/icons/MoreVert";
-import Profile from '../Profile/Profile';
-
-
+import { Link } from "react-router-dom";
+//  useNavigate
 const styles = (theme) => ({
   grow: {
     flexGrow: 1,
@@ -79,10 +81,13 @@ const styles = (theme) => ({
   },
 });
 
-const ToolbarComponent = ({ classes, openDrawerHandler }) => {
+const ToolbarComponent = ({ classes, openDrawerHandler, title }) => {
+  const { setUser } = useContext(UserContext);
+
+
+  // const [search, setSearch] = React.useState('');
   const [anchorEl, setAnchorEl] = useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = useState(null);
-
   const handleProfileMenuOpen = (event) => {
     setAnchorEl(event.currentTarget);
   };
@@ -92,8 +97,12 @@ const ToolbarComponent = ({ classes, openDrawerHandler }) => {
   };
 
   const handleMenuClose = () => {
+    // localStorage.removeItem('accessToken');
+
+    // navige('/')
     setAnchorEl(null);
     setMobileMoreAnchorEl(null);
+
   };
 
   const handleMobileMenuOpen = (event) => {
@@ -114,8 +123,8 @@ const ToolbarComponent = ({ classes, openDrawerHandler }) => {
       open={isMenuOpen}
       onClose={handleMenuClose}
     >
-      <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
-      <MenuItem onClick={handleMenuClose}>My account</MenuItem>
+      <MenuItem onClick={handleMenuClose} component={Link} to={'/profile-user'}>Profile</MenuItem>
+      <MenuItem onClick={handleMenuClose} >Logout</MenuItem>
     </Menu>
   );
 
@@ -174,7 +183,7 @@ const ToolbarComponent = ({ classes, openDrawerHandler }) => {
             <MenuIcon />
           </IconButton>
           <Typography className={classes.title} variant="h6" noWrap>
-            Title
+            {title}
           </Typography>
           <div className={classes.search}>
             <div className={classes.searchIcon}>
@@ -186,19 +195,8 @@ const ToolbarComponent = ({ classes, openDrawerHandler }) => {
                 root: classes.inputRoot,
                 input: classes.inputInput,
               }}
-              inputProps={{ "aria-label": "search" }}
-            />
-          </div> 
-          <div className={classes.search}>
-            <div className={classes.searchIcon}>
-              <SearchIcon />
-            </div>
-            <InputBase
-              placeholder="Search…"
-              classes={{
-                root: classes.inputRoot,
-                input: classes.inputInput,
-              }}
+              // value={search}/
+              onChange={(E) => { (setUser(E.target.value)) }}
               inputProps={{ "aria-label": "search" }}
             />
           </div>
@@ -240,8 +238,6 @@ const ToolbarComponent = ({ classes, openDrawerHandler }) => {
       </AppBar>
       {renderMobileMenu}
       {renderMenu}
-    <Profile/>
-
     </div>
   );
 };

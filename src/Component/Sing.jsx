@@ -12,33 +12,46 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-
-
-// function Sign(props) {
-//   return (
-//     <Typography variant="body2" color="text.secondary" align="center" {...props}>
-//       {'Copyright © '}
-//       <Link color="inherit" href="https://mui.com/">
-//         Your Website
-//       </Link>{' '}
-//       {new Date().getFullYear()}
-//       {'.'}
-//     </Typography>
-//   );
-// }
-
-// TODO remove, this demo shouldn't need to reset the theme.
-
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 const defaultTheme = createTheme();
 
 export default function SignUp() {
-  const handleSubmit = (event) => {
+  const [passvalidate, SetPassValid] = React.useState('')
+  const [passvalidate1, SetPassValid1] = React.useState('')
+  const navigate = useNavigate()
+
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get('email'),
-      password: data.get('password'),
-    });
+    const dataSing = new FormData(event.currentTarget);
+    let data = {
+      email: dataSing.get('email'),
+      first_name: dataSing.get('firstName'),
+      last_name: dataSing.get('lastName'),
+      password: dataSing.get('password'),
+      password1: dataSing.get('password1'),
+    }
+    try {
+      const response = await axios.post(`${process.env.REACT_APP_BASE_URL}/sign-up`, data);
+      if (response.data.access && response.data.refresh) {
+        // setToken(response.data.access);
+        navigate("/");
+        console.log('Response:', response.data);
+      }
+    } catch (error) {
+      // Improved error handling
+      if (error.response) {
+        // Server responded with a status other than 2xx
+        console.error('Server error:', error.response.data);
+      } else if (error.request) {
+        // Request was made but no response received
+        console.error('Network error:', error.message);
+      } else {
+        // Something else caused an error
+        console.error('Error:', error.message);
+      }
+    }
+
   };
 
   return (
@@ -97,22 +110,31 @@ export default function SignUp() {
                   required
                   fullWidth
                   name="password"
+                  // name={passvalidate}
                   label="Password"
                   type="password"
                   id="password"
+                  onChange={(e) => { SetPassValid(e.target.get) }}
                   autoComplete="new-password"
+                  style={{ color: passvalidate === passvalidate1 ? 'green' : 'red' }}
                 />
               </Grid>
               <Grid item xs={12}>
                 <TextField
                   required
                   fullWidth
-                  name="password"
+                  name={passvalidate1}
                   label="Password"
                   type="password"
-                  id="password"
+                  id="password1"
+                  onChange={(e) => { SetPassValid1(e.target.get) }}
                   autoComplete="new-password"
+                  style={{ color: passvalidate === passvalidate1 ? 'green' : 'red' }}
+
                 />
+                <Typography>
+                  {passvalidate === passvalidate1 ? "Password match" : "Password does not match"}
+                </Typography>
               </Grid>
               <Grid item xs={12}>
                 <FormControlLabel
